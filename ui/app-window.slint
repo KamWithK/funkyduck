@@ -1,18 +1,35 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, HorizontalBox } from "std-widgets.slint";
 
-export component AppWindow inherits Window {
-    in-out property <int> counter: 42;
-    callback request-increase-value();
-    VerticalBox {
-        Text {
-            text: "Hi Counter: \{root.counter}";
+component HorizontalSplit inherits HorizontalBox {
+    padding: 0px;
+    spacing: 0px;
+
+    property <length> proportion: self.width / 2;
+
+    left := Rectangle {
+        width: proportion;
+        Rectangle {
+            background: blue;
         }
+    }
 
-        Button {
-            text: "Increase value";
-            clicked => {
-                root.request-increase-value();
+    handle := Rectangle {
+        width: 8px;
+        background: @linear-gradient(0deg, #ddd, #aaa);
+        TouchArea {
+            moved => {
+                proportion = parent.x + self.mouse_x;
             }
         }
     }
+
+    right := Rectangle {
+        Rectangle {
+            background: red;
+        }
+    }
+}
+
+export component AppWindow inherits Window {
+    HorizontalSplit { }
 }
