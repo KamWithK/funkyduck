@@ -1479,6 +1479,7 @@ dependencies = [
  "slint",
  "slint-build",
  "tokio",
+ "toml",
 ]
 
 [[package]]
