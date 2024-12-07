@@ -16,6 +16,17 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
+        runtimeDependencies = with pkgs; [
+          wayland
+          libxkbcommon
+          libGL
+          libGL.dev
+          xorg.libXcursor
+          xorg.libXrandr
+          xorg.libXi
+          xorg.libX11
+          fontconfig.lib
+        ];
       in
       {
         defaultPackage =
@@ -35,17 +46,7 @@
               qt6Packages.qtbase
               qt6Packages.qtwayland
             ];
-            runtimeDependencies = [
-              wayland
-              libxkbcommon
-              libGL
-              libGL.dev
-              xorg.libXcursor
-              xorg.libXrandr
-              xorg.libXi
-              xorg.libX11
-              fontconfig.lib
-            ];
+            inherit runtimeDependencies;
           };
         devShell =
           with pkgs;
@@ -64,6 +65,7 @@
               slint-viewer.defaultPackage.${system}
             ];
             RUST_SRC_PATH = rustPlatform.rustLibSrc;
+            LD_LIBRARY_PATH = lib.makeLibraryPath runtimeDependencies;
             SLINT_STYLE = "cosmic-dark";
           };
       }
