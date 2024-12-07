@@ -42,6 +42,7 @@
             ];
             buildInputs = [
               (lib.getLib stdenv.cc.cc)
+              openssl
               qt6Packages.qtsvg
               qt6Packages.qtbase
               qt6Packages.qtwayland
@@ -63,6 +64,7 @@
               rustPackages.clippy
               slint-lsp
               slint-viewer.defaultPackage.${system}
+              openssl
             ];
             RUST_SRC_PATH = rustPlatform.rustLibSrc;
             LD_LIBRARY_PATH = lib.makeLibraryPath runtimeDependencies;
